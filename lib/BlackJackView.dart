@@ -306,16 +306,20 @@ class _BlackJackViewState extends State<BlackJackView> {
             ],
           ),
           Visibility(
-            visible: blackJackViewModel.isShowSum,
-            maintainSize: true,
-            maintainState: true,
-            maintainAnimation: true,
-            child: Expanded(
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
-              ),
-            ),
-          ),
+              visible: blackJackViewModel.isShowSum,
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.5)),
+                    ),
+                  ),
+                ],
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
