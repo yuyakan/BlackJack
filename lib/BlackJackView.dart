@@ -254,7 +254,7 @@ class _BlackJackViewState extends State<BlackJackView> {
                                 );
                               });
                         },
-                        child: Text("Fight?", style: TextStyle(fontSize: 20)),
+                        child: Text("Fight", style: TextStyle(fontSize: 20)),
                         padding: EdgeInsets.all(20),
                         color: Color.fromARGB(255, 219, 65, 41),
                         textColor: Colors.white,
