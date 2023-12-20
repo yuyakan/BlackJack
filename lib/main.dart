@@ -1,15 +1,18 @@
+import 'package:black_jack/Ad/InterstitialAd.dart';
 import 'package:black_jack/BlackJackView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart' as admob;
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
-  ]).then((_) {
-    runApp(const MyApp());
-  });
+  ]);
+  await admob.MobileAds.instance.initialize();
+  await InterstitialAd.instance.load();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
