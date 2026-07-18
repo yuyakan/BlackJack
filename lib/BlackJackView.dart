@@ -20,6 +20,9 @@ class _BlackJackViewState extends State<BlackJackView> {
   double _position = 0;
   double _opacity = 0;
 
+  /// Resetボタンが押された回数。3,5,7,9...回目(奇数かつ2回目以降)で広告を表示する。
+  int _resetCount = 0;
+
   RenderBox? renderBox;
   Future<void> _start() async {
     setState(() {
@@ -56,7 +59,11 @@ class _BlackJackViewState extends State<BlackJackView> {
       _position = 0;
       _opacity = 0;
       isShowStartButton = true;
-      InterstitialAd.instance.show();
+      _resetCount++;
+      // 1回目は表示せず、3,5,7,9...回目(奇数かつ2回目以降)で広告を表示する。
+      if (_resetCount >= 3 && _resetCount.isOdd) {
+        InterstitialAd.instance.show();
+      }
     });
   }
 
