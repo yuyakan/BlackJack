@@ -15,6 +15,9 @@ class InterstitialAd {
   /// The count of load attempt
   int _countLoadAttempt = 0;
 
+  /// The maximum number of load retries on failure.
+  static const int _maxLoadAttempt = 5;
+
   /// The interstitial ad
   admob.InterstitialAd? _interstitialAd;
 
@@ -40,7 +43,11 @@ class InterstitialAd {
             _interstitialAd = null;
             _countLoadAttempt++;
 
-            if (_countLoadAttempt <= 5) {
+            if (_countLoadAttempt <= _maxLoadAttempt) {
+              // 指数バックオフ: 2, 4, 8, 16, 32秒(最大60秒)待ってから再試行する。
+              final int backoffSeconds =
+                  (1 << _countLoadAttempt).clamp(2, 60).toInt();
+              await Future.delayed(Duration(seconds: backoffSeconds));
               await load();
             }
           },
