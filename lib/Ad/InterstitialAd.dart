@@ -29,9 +29,9 @@ class InterstitialAd {
 
   Future<void> load() async => await admob.InterstitialAd.load(
         // test用
-        adUnitId: Platform.isAndroid ? id_android_test : id_ios_test,
+        // adUnitId: Platform.isAndroid ? id_android_test : id_ios_test,
         // 本番用
-        // adUnitId: Platform.isAndroid ? id_android : id_ios,
+        adUnitId: Platform.isAndroid ? id_android : id_ios,
 
         request: const admob.AdRequest(),
         adLoadCallback: admob.InterstitialAdLoadCallback(
