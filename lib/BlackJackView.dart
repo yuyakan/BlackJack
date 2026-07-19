@@ -1,4 +1,5 @@
 import 'package:black_jack/Ad/InterstitialAd.dart';
+import 'package:black_jack/Review/ReviewRequest.dart';
 import 'package:black_jack/BlackJackViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ class _BlackJackViewState extends State<BlackJackView> {
   bool isShowStartButton = true;
   double _position = 0;
   double _opacity = 0;
+
+  /// Resetボタンが押された回数。3,5,7,9...回目(奇数かつ2回目以降)で広告を表示する。
+  int _resetCount = 0;
 
   RenderBox? renderBox;
   Future<void> _start() async {
@@ -56,7 +60,14 @@ class _BlackJackViewState extends State<BlackJackView> {
       _position = 0;
       _opacity = 0;
       isShowStartButton = true;
-      InterstitialAd.instance.show();
+      _resetCount++;
+      if (_resetCount.isEven) {
+        // 偶数回目(2,4,6,8...)はレビューダイアログをリクエストする。
+        ReviewRequest.instance.request();
+      } else if (_resetCount >= 3) {
+        // 1回目は表示せず、3,5,7,9...回目(奇数かつ2回目以降)で広告を表示する。
+        InterstitialAd.instance.show();
+      }
     });
   }
 
