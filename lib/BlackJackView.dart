@@ -21,7 +21,9 @@ class _BlackJackViewState extends State<BlackJackView> {
   double _position = 0;
   double _opacity = 0;
 
-  /// Resetボタンが押された回数。3,5,7,9...回目(奇数かつ2回目以降)で広告を表示する。
+  /// Resetボタンが押された回数。
+  /// 3,5,7,9...回目(奇数かつ2回目以降)で広告を表示し、
+  /// 2,12,22,32...回目(10回に1回、初回は2回目)でレビューダイアログをリクエストする。
   int _resetCount = 0;
 
   RenderBox? renderBox;
@@ -61,12 +63,13 @@ class _BlackJackViewState extends State<BlackJackView> {
       _opacity = 0;
       isShowStartButton = true;
       _resetCount++;
-      if (_resetCount.isEven) {
-        // 偶数回目(2,4,6,8...)はレビューダイアログをリクエストする。
-        ReviewRequest.instance.request();
-      } else if (_resetCount >= 3) {
+      if (_resetCount % 2 == 1 && _resetCount >= 3) {
         // 1回目は表示せず、3,5,7,9...回目(奇数かつ2回目以降)で広告を表示する。
+        // 広告を表示する回はレビューダイアログとタイミングが被らないようにする。
         InterstitialAd.instance.show();
+      } else if (_resetCount % 10 == 2) {
+        // 2,12,22,32...回目でレビューダイアログをリクエストする(10回に1回、初回は2回目)。
+        ReviewRequest.instance.request();
       }
     });
   }
